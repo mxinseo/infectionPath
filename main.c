@@ -44,15 +44,13 @@ int main(int argc, const char * argv[]) {
     }
     
     //1-2. loading each patient informations
-    while( 조건문 3 == fscanf("3가지 읽기 형식 지정자", 변수들) )
+    while ( 3 == fscanf_s(fp, "%d %d %d", &pIndex, &age, &time) )
     {
-    	for(){
-    		fscanf(5개 읽기);
-		}
-		
-		//printf 감염 경로 출력해보기 (10장 실습 27페이지) 
-		
-	}
+        int i;
+        for (i = 0; i < 5;i++) {
+            fscanf_s(fp, "%d", &placeHist[i]);
+        }
+    }
     
     //1-3. FILE pointer close
     fclose(fp);
