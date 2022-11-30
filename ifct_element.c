@@ -54,7 +54,8 @@ typedef enum place {
     CapeTown        //39
 } place_t;
 
-char countryName[N_PLACE+1][MAX_PLACENAME] =
+//N_PLACE = 40, MAX_PLACENAME = 100
+char countryName[N_PLACE+1][MAX_PLACENAME] =  
 {   "Seoul",
     "Jeju",
     "Tokyo",
@@ -114,35 +115,53 @@ typedef struct ifs_ele{
 static ifs_ele_t ifsarray[20];
 static int ifs_cnt;
 
-int ifctele_getHistPlaceIndex(void* obj, int index){
+
+//환자 정보 생성하는 함수  
+void* ifctele_genElement(int index, int age, unsigned int detected_time, int history_place[N_HISTORY]){
+	//ifsarray 배열의 ifs_cnt 번째 요소에 입력 내용 저장
+	ifsarray[ifs_cnt].pIndex = index; 
+	ifsarray[ifs_cnt].age = age;
+	ifsarray[ifs_cnt].time = detected_time;
+	int i;
+	for(i=0; i<N_HISTORY; i++){
+		ifsarray[ifs_cnt].placeHist[i] = history_place[i];
+	}
 	
+	ifs_cnt++;
+	
+	return (void*)&ifsarray[ifs_cnt-1];
 }
 
-unsigned int ifctele_getinfestedTime(void* obj){
+
+//환자 정보를 얻는 함수들 
+int ifctele_getHistPlaceIndex(void* obj, int index){
+	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
 	
+	return (void*)&ifsarray[index].placeHist; //포인터로 멤버에 접근
 }
 
 int ifctele_getAge(void* obj){
 	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
 	
-	return ;//포인터로 멤버에 접근
+	return (void*)&ifsarray[ifs_cnt].age; //포인터로 멤버에 접근
 }
 
-void* ifctele_genElement(int index, int age, unsigned int detected_time, int history_place[N_HISTORY]){
-	//ifsarray 배열의 ifs_cnt 번째 요소에 입력 내용 저장
-	ifsarray[ifs_cnt].index = index; 
-	ifsarray[ifs_cnt].age = age;
-	ifsarray[ifs_cnt].detected_time = detected_time;
-	ifsarray[ifs_cnt].history_place = history_place;
+unsigned int ifctele_getinfestedTime(void* obj){
+	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
 	
-	ifs_cnt++;
-	
-	return (void*)&ifsarray[인덱스];
+	return (void*)&ifsarray[ifs_cnt].time; //포인터로 멤버에 접근
 }
+
+char* ifctele_getPlaceName(int placeIndex){
+	
+	return (void*)&countryName[placeIndex][MAX_PLACENAME]; //포인터로 멤버에 접근	
+}
+
 
 void ifctele_printElement(void* obj){
-	ifsele_t* strPtr = (ifs_ele_t *)obj;
+	ifs_ele_t* strPtr = (ifs_ele_t *)obj;
 	
 	//print element
 }
+
 

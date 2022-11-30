@@ -26,7 +26,7 @@ int main(int argc, const char * argv[]) {
     void *ifct_element;
     FILE* fp;
     int pIndex, age, time;
-    int placeHist[N_HISTORY];
+    int placeHist[N_HISTORY]; 
     
     //------------- 1. loading patient info file ------------------------------
     //1-1. FILE pointer open
@@ -46,13 +46,15 @@ int main(int argc, const char * argv[]) {
     //1-2. loading each patient informations
     //앞부분 3개의 데이터 읽어오기 
 	//성공하면 placeHist[]에 감염경로 차례로 입력 
-	ifsele_genElement(,,,,);
+	
+	
     while ( 3 == fscanf(fp, "%d %d %d", &pIndex, &age, &time) ) 
     {
         int i;
         for (i = 0; i < 5;i++) {    
             fscanf(fp, "%d", &placeHist[i]); 
         } 
+        ifct_element = ifctele_genElement(pIndex,age,time,placeHist);
     }
     
     //1-3. FILE pointer close
@@ -65,7 +67,7 @@ int main(int argc, const char * argv[]) {
 		place1 = 3;
 		place2 = 15;
 		
-		printf("The first place is %s\n", ifsele_getPlaceName(place1));
+		printf("The first place is %s\n", ifctele_getPlaceName(place1));
 		 
 	}
     
