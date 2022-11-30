@@ -98,3 +98,51 @@ char countryName[N_PLACE+1][MAX_PLACENAME] =
     "Unrecognized"
 };
  
+ 
+typedef struct ifs_ele{
+	//환자 번호
+	int pIndex; 
+	//환자 나이  
+	int age;
+	//감염 확인 시점
+	int time;
+	//감염 직전 이동경로
+	place_t placeHist[N_HISTORY];
+} ifs_ele_t;
+
+
+static ifs_ele_t ifsarray[20];
+static int ifs_cnt;
+
+int ifctele_getHistPlaceIndex(void* obj, int index){
+	
+}
+
+unsigned int ifctele_getinfestedTime(void* obj){
+	
+}
+
+int ifctele_getAge(void* obj){
+	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
+	
+	return ;//포인터로 멤버에 접근
+}
+
+void* ifctele_genElement(int index, int age, unsigned int detected_time, int history_place[N_HISTORY]){
+	//ifsarray 배열의 ifs_cnt 번째 요소에 입력 내용 저장
+	ifsarray[ifs_cnt].index = index; 
+	ifsarray[ifs_cnt].age = age;
+	ifsarray[ifs_cnt].detected_time = detected_time;
+	ifsarray[ifs_cnt].history_place = history_place;
+	
+	ifs_cnt++;
+	
+	return (void*)&ifsarray[인덱스];
+}
+
+void ifctele_printElement(void* obj){
+	ifsele_t* strPtr = (ifs_ele_t *)obj;
+	
+	//print element
+}
+

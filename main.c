@@ -46,6 +46,7 @@ int main(int argc, const char * argv[]) {
     //1-2. loading each patient informations
     //앞부분 3개의 데이터 읽어오기 
 	//성공하면 placeHist[]에 감염경로 차례로 입력 
+	ifsele_genElement(,,,,);
     while ( 3 == fscanf(fp, "%d %d %d", &pIndex, &age, &time) ) 
     {
         int i;
@@ -90,6 +91,8 @@ int main(int argc, const char * argv[]) {
                 break;
                 
             case MENU_PATIENT:
+            	
+				printf("age : %i\n", ifctele_getAge(ifct_element)); 
                 
                 break;
                 
