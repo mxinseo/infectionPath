@@ -30,6 +30,7 @@ int main(int argc, const char * argv[]) {
     
     //------------- 1. loading patient info file ------------------------------
     //1-1. FILE pointer open
+    /*
     if (argc != 2)
     {
         printf("[ERROR] syntax : infestPath (file path).");
@@ -37,11 +38,14 @@ int main(int argc, const char * argv[]) {
     }
     
     fp = fopen(argv[1],"r");
+    
     if (fp == NULL)
     {
         printf("[ERROR] Failed to open database file!! (%s)\n", argv[1]);
         return -1;
     }
+    */
+    fp = fopen("patientInfo_sample.txt", "r"); //테스트용 텍스트 파일 실행  
     
     //1-2. loading each patient informations
     //앞부분 3개의 데이터 읽어오기 
@@ -51,7 +55,7 @@ int main(int argc, const char * argv[]) {
     while ( 3 == fscanf(fp, "%d %d %d", &pIndex, &age, &time) ) 
     {
         int i;
-        for (i = 0; i < 5;i++) {    
+        for (i = 0; i < 5; i++) {    
             fscanf(fp, "%d", &placeHist[i]); 
         } 
         ifct_element = ifctele_genElement(pIndex,age,time,placeHist);
