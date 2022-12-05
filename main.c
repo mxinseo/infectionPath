@@ -64,18 +64,6 @@ int main(int argc, const char * argv[]) {
     //1-3. FILE pointer close
     fclose(fp);
     
-    {
-    	int place1;
-		int place2;
-		
-		place1 = 3;
-		place2 = 15;
-		
-		printf("The first place is %s\n", ifctele_getPlaceName(place1));
-		 
-	}
-    
-    
     
     do {
         printf("\n=============== INFECTION PATH MANAGEMENT PROGRAM (No. of patients : %i) =============\n", ifctdb_len());
@@ -97,10 +85,11 @@ int main(int argc, const char * argv[]) {
                 break;
                 
             case MENU_PATIENT:
-            	
-				printf("age : %i\n", ifctele_getAge(ifct_element)); 
+            	{
+            		ifctele_printElement(&ifct_element);
                 
-                break;
+                	break;
+				}	
                 
             case MENU_PLACE:
                 

@@ -99,7 +99,7 @@ char countryName[N_PLACE+1][MAX_PLACENAME] =
     "Unrecognized"
 };
  
- 
+//환자 정보 구조체 생성  
 typedef struct ifs_ele{
 	//환자 번호
 	int pIndex; 
@@ -115,10 +115,10 @@ typedef struct ifs_ele{
 static ifs_ele_t ifsarray[20];
 static int ifs_cnt;
 
-
-//환자 정보 생성하는 함수  
+ 
+//환자 정보 생성하는 함수   
 void* ifctele_genElement(int index, int age, unsigned int detected_time, int history_place[N_HISTORY]){
-	//ifsarray 배열의 ifs_cnt 번째 요소에 입력 내용 저장
+	//ifsarray 배열의 ifs_cnt 번째 요소에 입력 내용 저장 
 	ifsarray[ifs_cnt].pIndex = index; 
 	ifsarray[ifs_cnt].age = age;
 	ifsarray[ifs_cnt].time = detected_time;
@@ -129,39 +129,54 @@ void* ifctele_genElement(int index, int age, unsigned int detected_time, int his
 	
 	ifs_cnt++;
 	
-	return (void*)&ifsarray[ifs_cnt-1];
+	return (void*)&ifsarray[ifs_cnt];
 }
 
 
-//환자 정보를 얻는 함수들 
+//구조체 내부 변수를 접근할 수 있는 함수 구현
+
+//1. 환자 이동 경로 접근  
 int ifctele_getHistPlaceIndex(void* obj, int index){
 	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
-	
-	return (void*)&ifsarray[index].placeHist; //포인터로 멤버에 접근
+    (int*)strPtr->placeHist;
+    return &strPtr;  //포인터로 멤버에 접근
 }
 
+//2. 환자 나이 정보 접근  
 int ifctele_getAge(void* obj){
 	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
-	
-	return (void*)&ifsarray[ifs_cnt].age; //포인터로 멤버에 접근
+    (int*)strPtr -> age;
+	return &strPtr; //strPtr가 가리키는 구조체의 나이 멤버 변수 반환
 }
 
+
+//3. 환자 감염 확인 일자 접근  
 unsigned int ifctele_getinfestedTime(void* obj){
-	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
-	
-	return (void*)&ifsarray[ifs_cnt].time; //포인터로 멤버에 접근
+	ifs_ele_t* strPtr = (ifs_ele_t*)obj;
+    (int*)strPtr->time;
+    return &strPtr; //포인터로 멤버에 접근
 }
 
+//4. 도시 이름 접근  
 char* ifctele_getPlaceName(int placeIndex){
 	
 	return (void*)&countryName[placeIndex][MAX_PLACENAME]; //포인터로 멤버에 접근	
 }
 
-
+//환자 정보 출력 함수  
 void ifctele_printElement(void* obj){
 	ifs_ele_t* strPtr = (ifs_ele_t *)obj;
 	
-	//print element
+	int i;
+    int j;
+    for (i = 0; i < ifs_cnt; i++) {
+        printf("Patient Index : %d\n", strPtr->pIndex);
+        printf("Age : %d\n", strPtr->age);
+        printf("Time : %d\n", strPtr->time);
+        for (j = 0; j < N_HISTORY; j++) {
+            printf("%d \n", strPtr->placeHist[j]);
+        }
+	}
 }
 
 
