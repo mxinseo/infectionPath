@@ -100,36 +100,29 @@ char countryName[N_PLACE+1][MAX_PLACENAME] =
 };
  
 //환자 정보 구조체 생성  
-typedef struct ifs_ele{
-	//환자 번호
-	int pIndex; 
-	//환자 나이  
-	int age;
-	//감염 확인 시점
-	int time;
-	//감염 직전 이동경로
-	place_t placeHist[N_HISTORY];
+typedef struct ifs_ele {
+	int pIndex;  //환자 번호
+	int age;  //환자 나이	
+	int time;  //감염 확인 시점	
+	place_t placeHist[N_HISTORY];  //감염 직전 이동경로
 } ifs_ele_t;
 
-
-static ifs_ele_t ifsarray[20];
-static int ifs_cnt;
-
  
-//환자 정보 생성하는 함수   
+//환자 정보 생성하는 함수 
 void* ifctele_genElement(int index, int age, unsigned int detected_time, int history_place[N_HISTORY]){
-	//ifsarray 배열의 ifs_cnt 번째 요소에 입력 내용 저장 
-	ifsarray[ifs_cnt].pIndex = index; 
-	ifsarray[ifs_cnt].age = age;
-	ifsarray[ifs_cnt].time = detected_time;
+	ifs_ele_t *ptr;
+	 
+	ptr = (ifs_ele_t *)malloc(1*sizeof(ifs_ele_t));
+	ptr->pIndex = index; 
+	ptr->age = age;
+	ptr->time = detected_time;
+	
 	int i;
 	for(i=0; i<N_HISTORY; i++){
-		ifsarray[ifs_cnt].placeHist[i] = history_place[i];
+		ptr->placeHist[i] = history_place[i];
 	}
 	
-	ifs_cnt++;
-	
-	return (void*)&ifsarray[ifs_cnt];
+	return ptr;
 }
 
 
@@ -137,46 +130,46 @@ void* ifctele_genElement(int index, int age, unsigned int detected_time, int his
 
 //1. 환자 이동 경로 접근  
 int ifctele_getHistPlaceIndex(void* obj, int index){
-	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
-    (int*)strPtr->placeHist;
-    return &strPtr;  //포인터로 멤버에 접근
+	ifs_ele_t *ptr = (ifs_ele_t *)obj; 
+	
+    return ptr->placeHist[index];  //포인터로 멤버에 접근
 }
 
 //2. 환자 나이 정보 접근  
 int ifctele_getAge(void* obj){
-	ifs_ele_t *strPtr = (ifs_ele_t *)obj; 
-    (int*)strPtr -> age;
-	return &strPtr; //strPtr가 가리키는 구조체의 나이 멤버 변수 반환
+	ifs_ele_t *ptr = (ifs_ele_t *)obj; 
+    
+	return ptr -> age; //strPtr가 가리키는 구조체의 나이 멤버 변수 반환
 }
-
 
 //3. 환자 감염 확인 일자 접근  
 unsigned int ifctele_getinfestedTime(void* obj){
-	ifs_ele_t* strPtr = (ifs_ele_t*)obj;
-    (int*)strPtr->time;
-    return &strPtr; //포인터로 멤버에 접근
+	ifs_ele_t* ptr = (ifs_ele_t*)obj;
+    
+    return ptr->time; //포인터로 멤버에 접근
 }
 
 //4. 도시 이름 접근  
 char* ifctele_getPlaceName(int placeIndex){
 	
-	return (void*)&countryName[placeIndex][MAX_PLACENAME]; //포인터로 멤버에 접근	
+	return countryName[placeIndex]; 
 }
 
 //환자 정보 출력 함수  
 void ifctele_printElement(void* obj){
-	ifs_ele_t* strPtr = (ifs_ele_t *)obj;
+	ifs_ele_t* ptr = (ifs_ele_t *)obj;
 	
-	int i;
-    int j;
-    for (i = 0; i < ifs_cnt; i++) {
-        printf("Patient Index : %d\n", strPtr->pIndex);
-        printf("Age : %d\n", strPtr->age);
-        printf("Time : %d\n", strPtr->time);
-        for (j = 0; j < N_HISTORY; j++) {
-            printf("%d \n", strPtr->placeHist[j]);
-        }
-	}
+	printf("--------------------------------------\n");
+    printf("Patient Index : %d\n", ptr->pIndex);
+    printf("Age : %d\n", ptr->age);
+    printf("Time : %d\n", ptr->time);
+    
+    int i;
+    for (i = 0; i < N_HISTORY-1; i++) {
+        printf("%d Days ago : %d \n", N_HISTORY-1-i, ptr->placeHist[i]);
+    }
+    printf("Detected place : %d\n", ptr->placeHist[i]);
+	printf("--------------------------------------\n");
 }
 
 

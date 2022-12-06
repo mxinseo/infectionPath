@@ -55,11 +55,14 @@ int main(int argc, const char * argv[]) {
     while ( 3 == fscanf(fp, "%d %d %d", &pIndex, &age, &time) ) 
     {
         int i;
-        for (i = 0; i < 5; i++) {    
+        for (i = 0; i < N_HISTORY; i++) {    
             fscanf(fp, "%d", &placeHist[i]); 
         } 
-        ifct_element = ifctele_genElement(pIndex,age,time,placeHist);
-    }
+        
+        ifct_element = ifctele_genElement(pIndex,age,time,placeHist); //구조체로 만들기  
+        
+        ifctdb_addTail(ifct_element); //linked list에 저장   
+    } 
     
     //1-3. FILE pointer close
     fclose(fp);
@@ -84,22 +87,28 @@ int main(int argc, const char * argv[]) {
                 printf("Exiting the program... Bye bye.\n");
                 break;
                 
-            case MENU_PATIENT:
+            case MENU_PATIENT:  //1. 특정 환자에 대한 정보 출력
             	{
-            		ifctele_printElement(&ifct_element);
-                
+            		int patientIndex;
+					printf("Enter Patient Index : ");
+					scanf("%d", &patientIndex);
+					
+					ifctele_printElement(ifctdb_getData(patientIndex));
+				
                 	break;
 				}	
                 
-            case MENU_PLACE:
+            case MENU_PLACE:  //2. 특정 장소에서 감염이 확인된 환자 관련 정보 출력
+                {
+                		
+				}
+                break;
+                
+            case MENU_AGE:  //3. 특정 범위의 나이에 해당하는 환자 관련 정보 출력
                 
                 break;
                 
-            case MENU_AGE:
-                
-                break;
-                
-            case MENU_TRACK:
+            case MENU_TRACK:  //4. 감염 경로 및 최초 전파자 추적
                     
                 break;
                 
