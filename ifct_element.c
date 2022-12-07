@@ -125,22 +125,28 @@ void* ifctele_genElement(int index, int age, unsigned int detected_time, int his
 	return ptr;
 }
 
+//장소 인덱스(정수)를 장소 이름(문자열)으로 반환하는 함수  
+char* ifctele_getPlaceName(int placeIndex){
+	
+	return countryName[placeIndex]; 
+}
+
 
 //구조체 내부 변수를 접근할 수 있는 함수 구현
 
-//1. 환자 이동 경로 접근  
+//1. 특정 시점 방문 장소 접근  
 int ifctele_getHistPlaceIndex(void* obj, int index){
 	ifs_ele_t *ptr = (ifs_ele_t *)obj; 
 	
-    return ptr->placeHist[index];  //포인터로 멤버에 접근
-}
+    return ptr->placeHist[index];  //ptr가 가리키는 구조체의 index번째 방문 장소 반환  
+	}
 
 //2. 환자 나이 정보 접근  
 int ifctele_getAge(void* obj){
 	ifs_ele_t *ptr = (ifs_ele_t *)obj; 
     
-	return ptr -> age; //strPtr가 가리키는 구조체의 나이 멤버 변수 반환
-}
+	return ptr -> age; //ptr가 가리키는 구조체의 나이 멤버 변수 반환
+ }
 
 //3. 환자 감염 확인 일자 접근  
 unsigned int ifctele_getinfestedTime(void* obj){
@@ -149,11 +155,6 @@ unsigned int ifctele_getinfestedTime(void* obj){
     return ptr->time; //포인터로 멤버에 접근
 }
 
-//4. 도시 이름 접근  
-char* ifctele_getPlaceName(int placeIndex){
-	
-	return countryName[placeIndex]; 
-}
 
 //환자 정보 출력 함수  
 void ifctele_printElement(void* obj){

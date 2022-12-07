@@ -90,7 +90,8 @@ int main(int argc, const char * argv[]) {
             case MENU_PATIENT:  //1. 특정 환자에 대한 정보 출력
             	{
             		int patientIndex;
-					printf("Enter Patient Index : ");
+            		
+					printf("Enter Patient Index : ");  //환자 번호 입력 받기  
 					scanf("%d", &patientIndex);
 					
 					ifctele_printElement(ifctdb_getData(patientIndex));
@@ -100,9 +101,38 @@ int main(int argc, const char * argv[]) {
                 
             case MENU_PLACE:  //2. 특정 장소에서 감염이 확인된 환자 관련 정보 출력
                 {
-                		
+					char place[MAX_PLACENAME];
+					
+					printf("Enter place name : ");  //특정 장소 이름 입력 받기  
+					scanf("%s", &place);
+					
+					int i;
+					int j;
+					int index[ifctdb_len()];
+					
+					for(i=0; i<ifctdb_len(); i++){
+						int flag = 0;
+						ifct_element = ifctdb_getData(i);
+						
+						for(j=0; j == '\0'; j++){
+							if(place[j] == ifctele_getPlaceName(ifctele_getHistPlaceIndex(ifct_element, N_HISTORY-1))[j])
+								flag = 1;
+							if(place[j] != ifctele_getPlaceName(ifctele_getHistPlaceIndex(ifct_element, N_HISTORY-1))[j])
+								flag = 0;
+						}
+						
+						if(flag == 1)
+							ifctele_printElement(ifct_element);
+						
+					}
+					
+
+										
 				}
-                break;
+				
+				
+				
+                break;    
                 
             case MENU_AGE:  //3. 특정 범위의 나이에 해당하는 환자 관련 정보 출력
                 
