@@ -108,34 +108,49 @@ int main(int argc, const char * argv[]) {
 					
 					int i;
 					int j;
-					int index[ifctdb_len()];
 					
 					for(i=0; i<ifctdb_len(); i++){
-						int flag = 0;
+						int flag = 0;  //flag 변수 선언  
 						ifct_element = ifctdb_getData(i);
 						
+						//place와 감염 확인 장소가 같은지 확인 
 						for(j=0; j == '\0'; j++){
 							if(place[j] == ifctele_getPlaceName(ifctele_getHistPlaceIndex(ifct_element, N_HISTORY-1))[j])
-								flag = 1;
+								flag = 1;  //같으면 flag = 1
 							if(place[j] != ifctele_getPlaceName(ifctele_getHistPlaceIndex(ifct_element, N_HISTORY-1))[j])
-								flag = 0;
+								flag = 0;  //다르면 flag = 0
 						}
 						
+						//place와 감염 확인 장소가 같으면 환자 정보 출력  
 						if(flag == 1)
 							ifctele_printElement(ifct_element);
-						
 					}
-					
-
-										
-				}
-				
-				
-				
+				}	
                 break;    
                 
             case MENU_AGE:  //3. 특정 범위의 나이에 해당하는 환자 관련 정보 출력
-                
+                {
+                	int minAge;
+					int maxAge;
+					
+					printf("Enter minAge : ");
+					scanf("%d", &minAge); 
+					
+					printf("Enter maxAge : ");
+					scanf("%d", &maxAge);
+					
+					int i;
+					
+					for(i=0; i<ifctdb_len(); i++){
+						ifct_element = ifctdb_getData(i);
+						int age = ifctele_getAge(ifct_element);
+						int flag = 0;  //flag 변수 선언  
+						
+						if(age <= maxAge && age >= minAge){  // minAge <= age <= maxAge
+							ifctele_printElement(ifct_element);
+						}
+					}		
+				}
                 break;
                 
             case MENU_TRACK:  //4. 감염 경로 및 최초 전파자 추적
