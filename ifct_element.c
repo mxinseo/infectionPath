@@ -162,15 +162,17 @@ void ifctele_printElement(void* obj){
 	
 	printf("--------------------------------------\n");
     printf("Patient Index : %d\n", ptr->pIndex);
-    printf("Age : %d\n", ptr->age);
-    printf("Time : %d\n", ptr->time);
+    printf("Patient Age : %d\n", ptr->age);
+    printf("Detected time : %d\n", ptr->time);
     
     int i;
-    for (i = 0; i < N_HISTORY-1; i++) {
-        printf("%d Days ago : %d \n", N_HISTORY-1-i, ptr->placeHist[i]);
+    int place;
+    printf("Path History : ");
+    for (i = 0; i < N_HISTORY; i++) {
+    	place = ifctele_getHistPlaceIndex(ptr, i);
+        printf("%s(%d) -> ", ifctele_getPlaceName(place), place);
     }
-    printf("Detected place : %d\n", ptr->placeHist[i]);
-	printf("--------------------------------------\n");
+	printf("\n--------------------------------------\n");
 }
 
 

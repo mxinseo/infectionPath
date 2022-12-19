@@ -159,6 +159,7 @@ int main(int argc, const char * argv[]) {
 					printf("Enter Patient Index : ");  //환자 번호 입력 받기  
 					scanf("%d", &patientIndex);
 					
+					
 					int i;
 					for(i=0; i<ifctdb_len(); i++){
 						printf("%d : %d\n", i, isMet(patientIndex, i));
@@ -196,6 +197,9 @@ int main(int argc, const char * argv[]) {
 	
 					printf("최초 감염자 : %d", firstInfester);
 					*/
+					
+					
+					
 				}    
                 break;
                 
@@ -233,15 +237,13 @@ int trackInfester(int patient_no, int *detected_time, int *place){
 
 int isMet(int patient_no, int patient_cmp){
 	int time;
-	int time_cmp;
-	
+	int met_time = -1;
+		
 	int place;
 	int place_cmp;
 	
 	int detected_time;
 	int detected_time_cmp;
-	
-	int met_time = -1;
 	
 	void *ifct_element;
     void *ifct_element_cmp;
@@ -252,19 +254,25 @@ int isMet(int patient_no, int patient_cmp){
     detected_time = ifctele_getinfestedTime(ifct_element);
     detected_time_cmp = ifctele_getinfestedTime(ifct_element_cmp);
     
+    int index_cmp;
+    
 	int i;
 	for(i=2; i<N_HISTORY; i++){ 
 		//time  = 현재 환자의 2,1,0번째 이동장소 시점;
 		time = detected_time - i; 
-		place = ifctele_getHistPlaceIndex(ifct_element, N_PLACE - i);
+		place = ifctele_getHistPlaceIndex(ifct_element, N_PLACE - i - 1);
 		
 		//time 시점에서 대상환자 이동장소 구하기 =  convertTimeToIndex 이용;
-		place_cmp = ifctele_getHistPlaceIndex(ifct_element_cmp, convertTimeToIndex(time, detected_time_cmp)); 
+		index_cmp = convertTimeToIndex(time, detected_time_cmp);
+		
+		if(index_cmp > -1){
+			place_cmp = ifctele_getHistPlaceIndex(ifct_element_cmp, index_cmp); 
 
-		if(place == place_cmp){
-			met_time = time;
-		}
+			if(place == place_cmp)
+				met_time = time;
+		}			
 	}
+	
 	return met_time;
 }
 
@@ -279,3 +287,4 @@ int convertTimeToIndex(int time, int infestedTime){
 	
 	return index;
 } 
+
