@@ -170,7 +170,10 @@ void ifctele_printElement(void* obj){
     printf("Path History : ");
     for (i = 0; i < N_HISTORY; i++) {
     	place = ifctele_getHistPlaceIndex(ptr, i);
-        printf("%s(%d) -> ", ifctele_getPlaceName(place), place);
+    	if(i==N_HISTORY-1)
+    		printf("%s(%d)", ifctele_getPlaceName(place), ptr->time-(N_HISTORY-i)+1);
+        else 
+			printf("%s(%d) -> ", ifctele_getPlaceName(place), ptr->time-(N_HISTORY-i)+1);
     }
 	printf("\n--------------------------------------\n");
 }

@@ -138,6 +138,7 @@ int main(int argc, const char * argv[]) {
 					scanf("%d", &maxAge);
 					
 					int i;
+					int flag = 0;
 					
 					for(i=0; i<ifctdb_len(); i++){
 						ifct_element = ifctdb_getData(i);
@@ -145,8 +146,11 @@ int main(int argc, const char * argv[]) {
 						
 						if(age <= maxAge && age >= minAge){  // minAge <= age <= maxAge
 							ifctele_printElement(ifct_element);
-						}
-					}		
+							flag = 1;
+						}	
+					}
+					if(flag == 0)
+						printf("\nThere are no patients between the ages of %d and %d.\n", minAge, maxAge);		
 				}
                 break;
                 
