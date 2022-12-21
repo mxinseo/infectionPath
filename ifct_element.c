@@ -108,7 +108,7 @@ typedef struct ifs_ele {
 } ifs_ele_t;
 
  
-//환자 정보 생성하는 함수 
+//환자 정보를 생성하는 함수 
 void* ifctele_genElement(int index, int age, unsigned int detected_time, int history_place[N_HISTORY]){
 	ifs_ele_t *ptr;
 	 
@@ -132,7 +132,7 @@ char* ifctele_getPlaceName(int placeIndex){
 }
 
 
-//구조체 내부 변수를 접근할 수 있는 함수 구현
+//구조체 내부 변수에 접근할 수 있는 함수들  
 
 //1. 특정 시점 방문 장소 접근  
 int ifctele_getHistPlaceIndex(void* obj, int index){
